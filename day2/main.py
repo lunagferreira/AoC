@@ -1,9 +1,22 @@
 def is_invalid_id(n: int) -> bool:
     string = str(n)  # Convert number to string
-    if len(string) % 2 != 0:  # Length must be even
-        return False
-    half = len(string) // 2  # Middle point
-    return string[:half] == string[half:]  # Check if first half equals second half
+    Lenght = len(string)  # Get length of string
+
+    for block_lenght in range(
+        1, Lenght // 2 + 1
+    ):  # Loop through possible block lengths
+        if Lenght % block_lenght != 0:  # If not divisible, skip
+            continue
+
+        repeats = Lenght // block_lenght  # Calculate number of repeats
+        if repeats < 2:  # Need at least two repeats
+            continue
+
+        block = string[:block_lenght]  # Get the block to compare
+        if block * repeats == string:  # Check if the string is made of repeated blocks
+            return True  # It's an invalid ID
+
+    return False  # It's a valid ID
 
 
 def sum_invalid_ids(line: str) -> int:
