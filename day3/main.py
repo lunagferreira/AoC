@@ -34,7 +34,7 @@ if __name__ == "__main__":
     with open("input.txt", "r") as f:
         input_text = f.read().strip()
 
-    K = 12  # number of batteries to turn on per bank
+    K = 12  # number of batteries to turn on
 
     # Loop through each line (each bank)
     for line in input_text.splitlines():
