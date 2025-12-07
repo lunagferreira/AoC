@@ -45,7 +45,7 @@ def find_problem_groups(grid):
     return groups
 
 
-def parse_problem(grid, col_start, col_end):
+def parse_problem_part1(grid, col_start, col_end):
     """From a given column range extract list of numbers and operation."""
     num_rows = len(grid)
     operation_row = num_rows - 1
@@ -70,6 +70,38 @@ def parse_problem(grid, col_start, col_end):
     return numbers, operation
 
 
+def parse_problem_part2(grid, col_start, col_end):
+    """From a given column range, extract list of numbers and operation,
+    where each number is written vertically in a single column."""
+    num_rows = len(grid)
+    operation_row = num_rows - 1
+
+    # Find the operation in the last row in this column range
+    operation_segment = grid[operation_row][col_start:col_end]
+    operation = None
+    if "+" in operation_segment:
+        operation = "+"
+    else:
+        operation = "*"
+
+    # Collect numbers from all rows except the last
+    numbers = []
+    # For each column in this problem, read digits top-to-bottom
+    for col in range(col_start, col_end):
+        digits = []
+        for row in range(operation_row):
+            ch = grid[row][col]
+            if ch.isdigit():
+                digits.append(ch)
+
+        if digits:
+            # Each column corresponds to exactly one number
+            num = int("".join(digits))
+            numbers.append(num)
+
+    return numbers, operation
+
+
 def compute_problem_result(numbers, operation):
     """Compute the result of applying the operator operation to all numbers."""
     if operation == "+":
@@ -85,7 +117,7 @@ def main():
     grand_total = 0
 
     for start, end in groups:
-        numbers, operation = parse_problem(grid, start, end)
+        numbers, operation = parse_problem_part2(grid, start, end)
         result = compute_problem_result(numbers, operation)
         grand_total += result
 
